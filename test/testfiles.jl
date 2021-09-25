@@ -1,3 +1,4 @@
+using Statistics
 using TimeZones
 
 testfile = joinpath(dir, "Example_Drive01.d7d")
@@ -11,9 +12,13 @@ f = DWDataReader.File(testfile)
 g = DWDataReader.File(testfile)
 @test f.readerid != g.readerid
 
-@test length(DWDataReader.scaled(f.channels[1])[1]) == 9580
-@test length(DWDataReader.scaled(f.channels[1])[2]) == 9580
+@test size(DWDataReader.scaled(f.channels[1]))[1] == 9580
+@test size(DWDataReader.scaled(f.channels[1]))[1] == 9580
 
-@test length(DWDataReader.scaled(f[:ENG_RPM])[1]) == 4791
+@test size(DWDataReader.scaled(f[:ENG_RPM]))[1] == 4791
+
+c = DWDataReader.scaled(f[:ENG_RPM])
+@test abs(mean(c[5.0 .<= c[:, 1] .<= 5.5, :][:, 2]) - 3098.5) < 1
+
 @test DWDataReader.startstoretime(f) ==
       ZonedDateTime(DateTime("2003-10-09T21:27:46.812"), tz"UTC")

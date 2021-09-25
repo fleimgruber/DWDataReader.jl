@@ -127,7 +127,7 @@ function scaled(ch::DWChannel, arrayindex = 0)
     time = zeros(count)
     status = DWGetScaledSamples(ch.index, Cint(0), count, data, time)
     status != 0 && throw(status)
-    return time, data
+    return [time data]
 end
 
 function startstoretime(f::File)
