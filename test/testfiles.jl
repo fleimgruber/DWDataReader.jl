@@ -15,4 +15,5 @@ g = DWDataReader.File(testfile)
 @test length(DWDataReader.scaled(f.channels[1])[2]) == 9580
 
 @test length(DWDataReader.scaled(f[:ENG_RPM])[1]) == 4791
-@test DWDataReader.startstoretime(f) == ZonedDateTime(DateTime("2003-10-09T21:27:46.812"), tz"UTC")
+@test DWDataReader.startstoretime(f) ==
+      ZonedDateTime(DateTime("2003-10-09T21:27:46.812"), tz"UTC")

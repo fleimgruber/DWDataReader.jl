@@ -24,7 +24,7 @@ struct File
     closed::Bool
     delete::Bool
     readerid::Int8
-    lookup::Dict{Symbol, DWChannel}
+    lookup::Dict{Symbol,DWChannel}
 end
 
 getname(f::File) = getfield(f, :name)
@@ -57,15 +57,16 @@ end
 
 # Property access for wrapped DWChannel with null-terminated string truncation
 function Base.getproperty(c::DWChannel, v::Symbol)
-    x = invoke(getproperty, Tuple{supertype(DWChannel), Symbol}, c, v)
+    x = invoke(getproperty, Tuple{supertype(DWChannel),Symbol}, c, v)
     return v == :name ? replace(String(x), r"\0+$" => s"") : x
 end
 
-function File(source;
-              # options
-              debug::Bool=false,
-              kw...
-              )
+function File(
+    source;
+    # options
+    debug::Bool = false,
+    kw...,
+)
     isempty(source) && throw(ArgumentError("unable to read DW data from empty source"))
     name = source
     closed = true
@@ -77,7 +78,7 @@ function File(source;
     readerid = DWDataReader.readers # DWInit creates the first readerid 0
     if readerid > 0 # Add reader only if this is not the first
         status = DWAddReader()
-        status !=0 && throw(status)
+        status != 0 && throw(status)
     end
 
     DWDataReader.setreaders(1)
@@ -99,7 +100,7 @@ function File(source;
     channels = Libc.malloc(DWChannel(), nchannels)
     DWGetChannelList(channels)
 
-    lookup = Dict(Symbol(getname(channels[i])) => channels[i] for i in 1:nchannels)
+    lookup = Dict(Symbol(getname(channels[i])) => channels[i] for i = 1:nchannels)
 
     File(name, fileinfo[], nchannels, channels, closed, delete, readerid, lookup)
 end
@@ -108,17 +109,18 @@ end
 function activate(f::File, verifyopen::Bool = true)
     verifyopen && f.closed && error("I/O operation on closed file")
     status = DWSetActiveReader(f.readerid)
-    status !=0 && throw(status)
+    status != 0 && throw(status)
 end
 
 function numberofsamples(ch::DWChannel)
     count = DWGetScaledSamplesCount(ch.index)
-    count < 0 && throw("DWGetScaledSamplesCount($(ch.index))=$(count) should be non-negative")
+    count < 0 &&
+        throw("DWGetScaledSamplesCount($(ch.index))=$(count) should be non-negative")
     count
 end
 
 """Load and return full speed data as vector"""
-function scaled(ch::DWChannel, arrayindex=0)
+function scaled(ch::DWChannel, arrayindex = 0)
     !(0 <= arrayindex < ch.array_size) && throw("arrayIndex is out of range")
     count = numberofsamples(ch)
     data = zeros(count * ch.array_size)

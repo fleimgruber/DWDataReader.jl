@@ -1,9 +1,9 @@
 module DWDataReader
 
-    include("file.jl")
+include("file.jl")
 
-    function read(source, kwargs...)
-        DWDataReader.File(source; kwargs...)
-    end
+function read(source, kwargs...)
+    DWDataReader.File(source; kwargs...)
+end
 
 end
