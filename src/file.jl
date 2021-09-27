@@ -41,8 +41,7 @@ getname(f::File) = getfield(f, :name)
 getnchannels(f::File) = getfield(f, :nchannels)
 
 function Base.show(io::IO, f::File)
-    println(io, "DWDataReader.File(\"$(getname(f))\"):")
-    println(io, "Number of channels: $(getnchannels(f))")
+    println(io, "DWDataReader.File(\"$(getname(f))\"): $(getnchannels(f)) channels")
 end
 
 # Enables f[:channel] via internal lookup Dict
