@@ -10,6 +10,16 @@ c"""
   #include <DWDataReaderLib.h>
 """j;
 
+struct FileInfo
+    sample_rate::Float64
+    start_store_time::ZonedDateTime
+    duration::Float64
+end
+
+function Base.show(io::IO, fi::FileInfo)
+    println(io, "$(fi.start_store_time) $(fi.sample_rate) Hz $(fi.duration) s")
+end
+
 """
     DWDataReader.File(source; kwargs...) => DWDataReader.File
 
@@ -18,7 +28,7 @@ Read DEWESoft input data files (.d7d extension) and return a `DWDataReader.File`
 """
 struct File
     name::String
-    info::DWFileInfo
+    info::FileInfo
     nchannels::Int64
     channels::Cptr{DWChannel}
     closed::Bool
@@ -90,10 +100,15 @@ function File(
     num_readers[] != readers && throw("DWGetNumReaders=$(num_readers[]) != $(readers)")
 
     # Opening the file
-    fileinfo = Ref(DWFileInfo())
-    status = DWOpenDataFile(source, fileinfo)
+    dwfileinfo = Ref(DWFileInfo())
+    status = DWOpenDataFile(source, dwfileinfo)
     status != 0 && throw(status)
     closed = false
+    fileinfo = FileInfo(
+        dwfileinfo[].sample_rate,
+        startstoretime(dwfileinfo[].start_store_time),
+        dwfileinfo[].duration,
+    )
 
     # How to make this the File AbstractVector{DWChannel} type?
     nchannels = DWGetChannelListCount()
@@ -102,7 +117,7 @@ function File(
 
     lookup = Dict(Symbol(getname(channels[i])) => channels[i] for i = 1:nchannels)
 
-    File(name, fileinfo[], nchannels, channels, closed, delete, readerid, lookup)
+    File(name, fileinfo, nchannels, channels, closed, delete, readerid, lookup)
 end
 
 """Set this DWFile instance as the active reader"""
@@ -130,9 +145,9 @@ function scaled(ch::DWChannel, arrayindex = 0)
     return [time data]
 end
 
-function startstoretime(f::File)
+function startstoretime(time::Float64)
     epoch = DateTime(1899, 12, 30)
     epochutc = ZonedDateTime(epoch, tz"UTC")
-    microseconds = f.info.start_store_time * 24 * 60 * 60 * 1000 * 1000
+    microseconds = time * 24 * 60 * 60 * 1000 * 1000
     epochutc + Dates.Microsecond(round(microseconds))
 end

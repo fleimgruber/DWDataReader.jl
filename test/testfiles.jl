@@ -20,5 +20,4 @@ g = DWDataReader.File(testfile)
 c = DWDataReader.scaled(f[:ENG_RPM])
 @test abs(mean(c[5.0 .<= c[:, 1] .<= 5.5, :][:, 2]) - 3098.5) < 1
 
-@test DWDataReader.startstoretime(f) ==
-      ZonedDateTime(DateTime("2003-10-09T21:27:46.812"), tz"UTC")
+@test f.info.start_store_time == ZonedDateTime(DateTime("2003-10-09T21:27:46.812"), tz"UTC")
