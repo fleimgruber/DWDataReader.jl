@@ -3,7 +3,9 @@ using TimeZones
 using CBinding
 
 # CBinding.jl: Set up compiler context
-c`-std=c99 -Wall -Isrc/include -lDWDataReaderLib64`
+c`-std=c99 -Wall -Isrc/include -lDWDataReaderLib64 -L.`
+
+const c"int64_t" = Int64
 
 # CBinding.jl: Create Julia types and bindings for DLL functions from header
 c"""
