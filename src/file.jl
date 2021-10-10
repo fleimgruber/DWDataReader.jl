@@ -2,8 +2,11 @@ using Dates
 using TimeZones
 using CBinding
 
+packagedir = joinpath(dirname(pathof(DWDataReader)), "..")
+includedir = joinpath(packagedir, "src", "include")
+
 # CBinding.jl: Set up compiler context
-c`-std=c99 -Wall -Isrc/include -lDWDataReaderLib64 -L.`
+c`-std=c99 -Wall -I$(includedir) -lDWDataReaderLib64 -L$(packagedir)`
 
 const c"int64_t" = Int64
 
