@@ -26,6 +26,10 @@ for ch in f.channels
 end
 ```
 
+## Supported Systems
+
+On Windows, there is no support for MSVC, only for MSYS2 MinGW gcc. On Linux gcc is supported.
+
 ## Documentation
 
 - [**STABLE**][docs-stable-url] &mdash; **most recently tagged version of the documentation.**

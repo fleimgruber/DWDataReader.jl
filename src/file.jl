@@ -8,7 +8,14 @@ includedir = joinpath(packagedir, "src", "include")
 # CBinding.jl: Set up compiler context
 c`-std=c99 -Wall -I$(includedir) -lDWDataReaderLib64 -L$(packagedir)`
 
-const c"int64_t" = Int64
+if Sys.iswindows()
+    c"""
+      #include <basetsd.h>
+    """s
+    const c"__int64" = Int64
+elseif Sys.islinux()
+    const c"int64_t" = Int64
+end
 
 # CBinding.jl: Create Julia types and bindings for DLL functions from header
 c"""
