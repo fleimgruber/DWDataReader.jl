@@ -5,7 +5,7 @@ const dir = joinpath(dirname(pathof(DWDataReader)), "..", "test", "testfiles")
 @testset "DWDataReader" begin
 
     DWInit()
-    @test DWDataReader.DWGetVersion() == 4020020
+    @test DWDataReader.DWGetVersion() == 4020023
     DWDeInit()
 
     @testset "DWDataReader.File" begin

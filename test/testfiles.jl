@@ -20,8 +20,10 @@ g = DWDataReader.File(testfile)
 
 @test size(DWDataReader.scaled(f[:ENG_RPM]))[1] == 4791
 
-c = DWDataReader.scaled(f[:ENG_RPM])
-@test abs(mean(c[5.0 .<= c[:, 1] .<= 5.5, :][:, 2]) - 3098.5) < 1
+data = DWDataReader.scaled(f[:ENG_RPM])
+@test abs(mean(data[5.0 .<= data[:, 1] .<= 5.5, :][:, 2]) - 3098.5) < 1
+
+@test f[:ENG_RPM].long_name == "ENG_RPM"
 
 @test f.info.start_store_time == ZonedDateTime(DateTime("2003-10-09T21:27:46.812"), tz"UTC")
 @test f.info.sample_rate == 100.0

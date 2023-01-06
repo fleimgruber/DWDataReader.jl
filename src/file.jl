@@ -78,8 +78,21 @@ end
 
 # Property access for wrapped DWChannel with null-terminated string truncation
 function Base.getproperty(c::DWChannel, v::Symbol)
-    x = invoke(getproperty, Tuple{supertype(DWChannel),Symbol}, c, v)
-    return v == :name ? replace(String(x), r"\0+$" => s"") : x
+    if v == :long_name
+        max_len = Ref{Cint}(sizeof(Cint))
+        ret_buff = Libc.malloc(Cint, 1)
+        DWGetChannelProps(c.index, DW_CH_LONGNAME_LEN, ret_buff, max_len)
+        max_len[] = ret_buff[]
+        Libc.free(ret_buff)
+
+        ret_buff = Libc.malloc(Cchar, max_len[])
+        DWGetChannelProps(c.index, DW_CH_LONGNAME, ret_buff, max_len)
+        raw_string = unsafe_string(ret_buff, max_len[])
+        Libc.free(ret_buff)
+    else
+        raw_string = invoke(getproperty, Tuple{supertype(DWChannel),Symbol}, c, v)
+    end
+    return v in [ :name :long_name ] ? replace(String(raw_string), r"\0+$" => s"") : raw_string
 end
 
 function File(

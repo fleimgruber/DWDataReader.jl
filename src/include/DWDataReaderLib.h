@@ -15,34 +15,39 @@
     #define DllImport EXPORT_C __declspec(dllimport)
 #endif
 
-enum DWStatus					// status returned from library function calls
+enum DWStatus // status returned from library function calls
 {
-    DWSTAT_OK = 0,                                // status OK
-    DWSTAT_ERROR = 1,                             // error occurred in the dll
-    DWSTAT_ERROR_FILE_CANNOT_OPEN = 2,            // unable to open file
-    DWSTAT_ERROR_FILE_ALREADY_IN_USE = 3,         // file already in use
-    DWSTAT_ERROR_FILE_CORRUPT = 4,                // file corrupted
-    DWSTAT_ERROR_NO_MEMORY_ALLOC = 5,             // memory not allocated
-    DWSTAT_ERROR_CREATE_DEST_FILE = 6,            // error creating destination file (only for d7z files)
-    DWSTAT_ERROR_EXTRACTING_FILE = 7,             // error extracting data (only for d7z files)
-    DWSTAT_ERROR_CANNOT_OPEN_EXTRACTED_FILE = 8   // error opening extracted file (only for d7z files)
+  DWSTAT_OK = 0,                        // status OK
+  DWSTAT_ERROR = 1,                     // error occurred in the dll
+  DWSTAT_ERROR_FILE_CANNOT_OPEN = 2,    // unable to open file
+  DWSTAT_ERROR_FILE_ALREADY_IN_USE = 3, // file already in use
+  DWSTAT_ERROR_FILE_CORRUPT = 4,        // file corrupted
+  DWSTAT_ERROR_NO_MEMORY_ALLOC = 5,     // memory not allocated
+  DWSTAT_ERROR_CREATE_DEST_FILE =
+      6, // error creating destination file (only for d7z files)
+  DWSTAT_ERROR_EXTRACTING_FILE =
+      7, // error extracting data (only for d7z files)
+  DWSTAT_ERROR_CANNOT_OPEN_EXTRACTED_FILE = 8, // error opening extracted file (only for d7z files)
+  DWSTAT_ERROR_INVALID_IB_LEVEL = 9
 };
 
-enum DWChannelProps	// used for DWGetChannelProps() calls
+enum DWChannelProps // used for DWGetChannelProps() calls
 {
-    DW_DATA_TYPE = 0,               // get data type
-    DW_DATA_TYPE_LEN_BYTES = 1,     // get length of data type in bytes
-    DW_CH_INDEX = 2,                // get channel index
-    DW_CH_INDEX_LEN = 3,            // get length of channel index
-    DW_CH_TYPE = 4,                 // get channel type
-    DW_CH_SCALE = 5,                // get channel scale
-    DW_CH_OFFSET = 6,               // get channel offset
-    DW_CH_XML = 7,                  // get channel XML
-    DW_CH_XML_LEN = 8,              // get length of channel XML
-    DW_CH_XMLPROPS = 9,             // get channel XML properties
-    DW_CH_XMLPROPS_LEN = 10,        // get length of channel XML properties
-    DW_CH_CUSTOMPROPS = 11,         // get channel XML custom properties
-    DW_CH_CUSTOMPROPS_COUNT = 12    // get length of channel XML custom properties
+  DW_DATA_TYPE = 0,            // get data type
+  DW_DATA_TYPE_LEN_BYTES = 1,  // get length of data type in bytes
+  DW_CH_INDEX = 2,             // get channel index
+  DW_CH_INDEX_LEN = 3,         // get length of channel index
+  DW_CH_TYPE = 4,              // get channel type
+  DW_CH_SCALE = 5,             // get channel scale
+  DW_CH_OFFSET = 6,            // get channel offset
+  DW_CH_XML = 7,               // get channel XML
+  DW_CH_XML_LEN = 8,           // get length of channel XML
+  DW_CH_XMLPROPS = 9,          // get channel XML properties
+  DW_CH_XMLPROPS_LEN = 10,     // get length of channel XML properties
+  DW_CH_CUSTOMPROPS = 11,      // get channel XML custom properties
+  DW_CH_CUSTOMPROPS_COUNT = 12, // get length of channel XML custom properties
+  DW_CH_LONGNAME = 13,         // get channel long name
+  DW_CH_LONGNAME_LEN = 14      // get length of channel long name
 };
 
 #pragma pack(1)
