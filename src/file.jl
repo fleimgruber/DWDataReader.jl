@@ -92,7 +92,8 @@ function Base.getproperty(c::DWChannel, v::Symbol)
     else
         raw_string = invoke(getproperty, Tuple{supertype(DWChannel),Symbol}, c, v)
     end
-    return v in [ :name :long_name ] ? replace(String(raw_string), r"\0+$" => s"") : raw_string
+    return v in [:name :long_name] ? replace(String(raw_string), r"\0+$" => s"") :
+           raw_string
 end
 
 function File(
