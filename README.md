@@ -37,7 +37,7 @@ On Windows, there is no support for MSVC, only for MSYS2 MinGW gcc. On Linux gcc
 
 ## Project Status
 
-The package is tested against Julia `1.5.1`, current stable release, and nightly on Linux, macOS, and Windows.
+The package is tested against Julia `1.8.5` on Linux and Windows.
 
 ## Contributing and Questions
 
