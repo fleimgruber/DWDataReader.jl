@@ -1,7 +1,7 @@
 name = "DWDataReader"
 uuid = "d50a3a05-91c6-42d5-aeb6-a7244554f0d0"
 authors = ["fleimgruber <fabio.leimgruber@posteo.eu>"]
-version = "0.1.2"
+version = "0.1.1"
 
 [deps]
 CBinding = "d43a6710-96b8-4a2d-833c-c424785e5374"
@@ -12,6 +12,7 @@ TimeZones = "f269a46b-ccf7-5d73-abea-4c690281aa53"
 [compat]
 CBinding = "1.0.10"
 TimeZones = "1.5.7"
+julia = "1.6"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
