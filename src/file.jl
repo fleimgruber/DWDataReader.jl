@@ -5,6 +5,13 @@ using CBinding
 packagedir = joinpath(dirname(pathof(DWDataReader)), "..")
 includedir = joinpath(packagedir, "src", "include")
 
+# Fix shared library file permissions, see also:
+# https://github.com/fleimgruber/DWDataReader.jl/issues/3
+lib_dll = joinpath(dirname(pathof(DWDataReader)), "..", "DWDataReaderLib64.dll")
+chmod(lib_dll, filemode(lib_dll) | 0o755)
+lib_so = joinpath(dirname(pathof(DWDataReader)), "..", "DWDataReaderLib64.so")
+chmod(lib_so, filemode(lib_so) | 0o755)
+
 # CBinding.jl: Set up compiler context
 c`-std=c99 -Wall -I$(includedir) -lDWDataReaderLib64 -L$(packagedir)`
 
