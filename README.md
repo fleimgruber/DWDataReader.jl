@@ -28,7 +28,24 @@ end
 
 ## Supported Systems
 
-On Windows, there is no support for MSVC, only for MSYS2 MinGW gcc. On Linux gcc is supported.
+### Windows
+
+Only MSYS2 MinGW toolchain is supported. Please provide PRs for other toolchains (e.g. MSVC).
+
+Run this command to install the toolchain (on MSYS2 MINGW64 shell):
+
+```bash
+pacman -S --needed base-devel mingw-w64-x86_64-toolchain
+```
+
+Make sure these MSYS2 paths are in the $PATH environment variable for the julia process using DWDataReader.jl:
+
+* `C:\Users\user\opt\msys64\usr\bin`
+* `C:\Users\user\opt\msys64\mingw64\bin`
+
+### Linux
+
+GCC toolchain is supported.
 
 ## Documentation
 
