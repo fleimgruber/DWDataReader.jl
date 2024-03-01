@@ -1,2 +1,3 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+DWDataReader = "d50a3a05-91c6-42d5-aeb6-a7244554f0d0"
